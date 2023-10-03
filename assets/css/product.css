@@ -1,0 +1,39 @@
+body {
+  font-family: Poppins, sans-serif;
+  background: url(../images/go-sunny.jpg) no-repeat center top;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+h1 {
+  color: #ffffff;
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.flex-container > div {
+  background-color: #fff;
+  border: 2px solid #ac6666;
+  border-radius: 10px;
+  width: 150px;
+  padding: 50px 50px;
+  margin: 10px;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+}
+
+h2 {
+  color: #333;
+}
+
+p {
+  color: #666;
+}
+
+li:hover {
+  background-color: #f2f2f2;
+}
