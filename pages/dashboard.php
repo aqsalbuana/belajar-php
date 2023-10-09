@@ -91,15 +91,15 @@
         <div class="position-sticky pt-3 sidebar-sticky">
           <ul class="nav flex-column">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="pages/listingproduk.php">
+              <a class="nav-link" aria-current="page" href="listingproduk.php">
                 <span data-feather="home" class="align-text-bottom"></span>
                 Product
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="pages/login.php">
+              <a class="nav-link" href="login.php">
                 <span data-feather="user" class="align-text-bottom"></span>
-                Login
+                Log Out
               </a>
             </li>
 
