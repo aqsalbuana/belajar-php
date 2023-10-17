@@ -1,22 +1,17 @@
-<?php 
+<?php
 session_start();
 
-$dataEmail = "admin@gmail.com";
-$dataPassword = "admin";
+$emaillogin = 'admin@gmail.com';
+$passwordlogin = 'admin';
 
-if (isset($_POST["email"]) && isset($_POST["password"])) {
-    $email = $_POST["email"];
-    $password = $_POST["password"];
 
-    if ($email == $dataEmail && $password == $dataPassword) {
-        $_SESSION["email"] = $email;
-        header("Location: dashboard.php");
-    } else {
-        header("Location: login.php?error=1");
-    }
-    
+$email = $_POST['email'];
+$password = $_POST['password'];
+
+if ($email == $emaillogin && $password == $passwordlogin) {
+    $_SESSION['email'] = $email;
+    $_SESSION['password'] = $password;
+    header('Location: dashboard.php');
 } else {
-    header("Location: login.php");
+    header('Location: login.php');
 }
-
-?>

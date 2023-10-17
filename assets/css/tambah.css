@@ -1,0 +1,9 @@
+.bungkus {
+  padding-left: 300px;
+  padding-right: 50px;
+}
+
+.sidebar {
+  height: 120vh; /* Mengatur tinggi sidebar agar mencapai ke bawah (100% tinggi viewport) */
+  overflow-y: auto; /* Membuat sidebar dapat di-scroll jika terlalu panjang */
+}
