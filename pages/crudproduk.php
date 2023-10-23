@@ -205,7 +205,7 @@ require "koneksi.php";
               </a>
             </li>
             <li class="nav-item">
-              <a href="listingproduk.php" class="nav-link">
+              <a href="product.php" class="nav-link">
                 <i class="nav-icon fas fa-book"></i>
                 <p>
                   Product
@@ -247,7 +247,7 @@ require "koneksi.php";
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="dashboard.php">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
                 <li class="breadcrumb-item active">Product CRUD</li>
               </ol>
             </div>
@@ -262,15 +262,31 @@ require "koneksi.php";
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                  <div class="d-flex justify-content-end">
-                      <button type="button" class="btn btn-primary btn-tambah"  data-toggle="modal" data-target="#modal-tambah">
-                          Tambah Produk
-                      </button>
-                  </div>
+                <div class="d-flex justify-content-between">
+                  <form action="<?php echo $_SERVER["PHP_SELF"];?>" method="post">
+                      <div class="input-group">
+                          <?php
+                          $kata_kunci="";
+                          if (isset($_POST['kata_kunci'])) {
+                              $kata_kunci=$_POST['kata_kunci'];
+                          }
+                          ?>
+                          <input type="text" name="kata_kunci" value="<?php echo $kata_kunci;?>" class="form-control form-control-md" placeholder="Cari...">
+                          <div class="input-group-append">
+                              <button type="submit" name="cari" class="btn btn-md btn-default">
+                                  <i class="fa fa-search"></i>
+                              </button>
+                          </div>
+                      </div>
+                  </form>
+                  <button type="button" class="btn btn-primary btn-tambah"  data-toggle="modal" data-target="#modal-tambah">
+                      Tambah Produk
+                  </button>
+                </div>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <table id="example2" class="table table-bordered table-hover text-center">
+                <table id="" class="table table-bordered table-hover text-center">
                   <thead>
                   <tr>
                     <th>Id</th>
@@ -286,10 +302,35 @@ require "koneksi.php";
                     <th>Action</th>
                   </tr>
                   </thead>
+                  <?php  
+                      
+                    $batas = 3;
+                    $halaman = isset($_GET['halaman'])?(int)$_GET['halaman'] : 1;
+                    $halaman_awal = ($halaman>1) ? ($halaman * $batas) - $batas : 0;	
+            
+                    $previous = $halaman - 1;
+                    $next = $halaman + 1;
+                    
+                    $data = mysqli_query($koneksi,"select * from products");
+                    $jumlah_data = mysqli_num_rows($data);
+                    $total_halaman = ceil($jumlah_data / $batas);
+                    
+                    $data_product = "select * from products limit $halaman_awal, $batas";
+                    $nomor = $halaman_awal+1;
+
+                    if (isset($_POST['kata_kunci'])) {
+                      $kata_kunci=trim($_POST['kata_kunci']);
+                      $sql="SELECT * FROM products WHERE category_id LIKE '%".$kata_kunci."%' OR product_name LIKE '%".$kata_kunci."%' OR product_code LIKE '%".$kata_kunci."%' OR description LIKE '%".$kata_kunci."%'";
+                    }else {
+                      $sql=$data_product;
+                      // die;
+                    }
+                  ?>
                   <tbody>
                     <?php
-                    $produk = $koneksi->query("SELECT * FROM products");
-                    while ($row = $produk->fetch_assoc()) {
+                    $result=mysqli_query($koneksi,$sql);
+                    while ($row=mysqli_fetch_assoc($result)) {
+                    // while ($row = $produk->fetch_assoc()) {
                     ?>
                   <tr>
                     <td name="idTab" ><?php echo $row['id']?></td>
@@ -322,79 +363,27 @@ require "koneksi.php";
                     </td>
                   </tr>
 
-
-
-
                     <?php } ?>
-
-                  <!-- <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 5.0
-                    </td>
-                    <td>Win 95+</td>
-                    <td>5</td>
-                    <td>C</td>
-                    <td>C</td>
-                    <td>C</td>
-                    <td>C</td>
-                    <td>C</td>
-                    <td>C</td>
-                  </tr>
-                  <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 5.5
-                    </td>
-                    <td>Win 95+</td>
-                    <td>5.5</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                  </tr>
-                  <tr>
-                    <td>Trident</td>
-                    <td>Internet
-                      Explorer 6
-                    </td>
-                    <td>Win 98+</td>
-                    <td>6</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                  </tr>
-                  <tr>
-                    <td>Trident</td>
-                    <td>Internet Explorer 7</td>
-                    <td>Win XP SP2+</td>
-                    <td>7</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                  </tr>
-                  <tr>
-                    <td>Trident</td>
-                    <td>AOL browser (AOL desktop)</td>
-                    <td>Win XP</td>
-                    <td>6</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                    <td>A</td>
-                  </tr> -->
+                  </tbody>
                   </tfoot>
                 </table>
+                <nav>
+                  <ul class="pagination pt-3 justify-content-end">
+                    <li class="page-item">
+                      <a class="page-link" <?php if($halaman > 1){ echo "href='?halaman=$previous'"; } ?>>Previous</a>
+                    </li>
+                    <?php 
+                    for($x=1;$x<=$total_halaman;$x++){
+                      ?> 
+                      <li class="page-item"><a class="page-link" href="?halaman=<?php echo $x ?>"><?php echo $x; ?></a></li>
+                      <?php
+                    }
+                    ?>				
+                    <li class="page-item">
+                      <a  class="page-link" <?php if($halaman < $total_halaman) { echo "href='?halaman=$next'"; } ?>>Next</a>
+                    </li>
+                  </ul>
+                </nav>
               </div>
               <!-- /.card-body -->
             </div>
@@ -416,7 +405,7 @@ require "koneksi.php";
           <div class="modal-header">
             <h3 class="modal-title fs-5" id="modal-tambahLabel">Tambah Produk</h3>
           </div>
-          <form id="form" action="tambah.php" method="post" >
+          <form id="form" action="action-tambah.php" method="post" >
             <div class="modal-body ">
               <div class="mb-2">
                 <label for="namaProduk" class="form-label">Nama Produk<span style="color: red;">*</span></label>
@@ -480,7 +469,7 @@ require "koneksi.php";
           <div class="modal-header">
             <h3 class="modal-title fs-5" id="modal-editLabel">Edit Produk</h3>
           </div>
-          <form action="edit.php" method="post" >
+          <form action="action-edit.php" method="post" >
           <div class="modal-body">
               <div class="mb-2">
                 <label for="idProduk" class="form-label">id<span style="color: red;">*</span></label>
@@ -549,7 +538,7 @@ require "koneksi.php";
           <div class="modal-header">
             <h3 class="modal-title fs-5" id="modal-hapusLabel">Hapus Produk</h3>
           </div>
-          <form action="delete.php" method="post">
+          <form action="action-delete.php" method="post">
             <div class="modal-body">
               <input type="hidden" class="form-control idProduk" id="idProduk" name="id" value="">
               <h6>Apakah anda ingin menghapus produk ini?</h6>
@@ -567,7 +556,7 @@ require "koneksi.php";
 
 
     <footer class="main-footer">
-      <strong>Copyright &copy; AQS </strong>
+      <strong>Copyright &copy; Poster Market </strong>
     </footer>
 
     <!-- Control Sidebar -->

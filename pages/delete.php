@@ -7,14 +7,16 @@
         $result = mysqli_query($koneksi, $query);
     
         if($result){
-            // echo "<script>alert('Berhasil menghapus data')</script>";
-            header('Location:crudproduk.php');
+            header('Location:productcrud.php');
             die;
         } else {
             echo "<script>alert('Gagal menghapus data')</script>";
         }
     }
 
+
+
+?>
 
 
 ?>
