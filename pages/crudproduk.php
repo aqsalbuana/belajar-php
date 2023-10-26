@@ -347,12 +347,12 @@ require "koneksi.php";
                       <div class="container">
                         <div class="row  justify-content-center">
                           <div class="col-6">
-                            <a href="#" class="btn btn-danger btn-sm " name="btn-hapus" data-toggle="modal" data-target="#modal-hapus">
+                            <a href="delete.php" class="btn btn-danger btn-sm " name="btn-hapus" data-toggle="modal" data-target="#modal-hapus">
                               <i class="fas fa-trash-alt"></i>
                             </a>
                           </div>
                           <div class="col-6">
-                            <a href="#" class="btn btn-sm bg-teal" name="btn-edit" data-toggle="modal" data-target="#modal-edit">
+                            <a href="edit.php" class="btn btn-sm bg-teal" name="btn-edit" data-toggle="modal" data-target="#modal-edit">
                               <i class="fas fa-edit"></i>
                             </a>
                           </div>
@@ -405,7 +405,7 @@ require "koneksi.php";
           <div class="modal-header">
             <h3 class="modal-title fs-5" id="modal-tambahLabel">Tambah Produk</h3>
           </div>
-          <form id="form" action="action-tambah.php" method="post" >
+          <form id="form" action="tambah.php" method="post" >
             <div class="modal-body ">
               <div class="mb-2">
                 <label for="namaProduk" class="form-label">Nama Produk<span style="color: red;">*</span></label>
@@ -469,7 +469,7 @@ require "koneksi.php";
           <div class="modal-header">
             <h3 class="modal-title fs-5" id="modal-editLabel">Edit Produk</h3>
           </div>
-          <form action="action-edit.php" method="post" >
+          <form action="edit.php" method="post" >
           <div class="modal-body">
               <div class="mb-2">
                 <label for="idProduk" class="form-label">id<span style="color: red;">*</span></label>
@@ -538,7 +538,7 @@ require "koneksi.php";
           <div class="modal-header">
             <h3 class="modal-title fs-5" id="modal-hapusLabel">Hapus Produk</h3>
           </div>
-          <form action="action-delete.php" method="post">
+          <form action="delete.php" method="post">
             <div class="modal-body">
               <input type="hidden" class="form-control idProduk" id="idProduk" name="id" value="">
               <h6>Apakah anda ingin menghapus produk ini?</h6>

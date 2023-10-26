@@ -7,7 +7,7 @@
         $result = mysqli_query($koneksi, $query);
     
         if($result){
-            header('Location:productcrud.php');
+            header('Location:crudproduk.php');
             die;
         } else {
             echo "<script>alert('Gagal menghapus data')</script>";
