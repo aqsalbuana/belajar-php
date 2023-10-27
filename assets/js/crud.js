@@ -6,7 +6,7 @@ const form = document.getElementById("form");
 
 const colId = document.getElementsByName("id");
 const colProductName = document.getElementsByName("product_name");
-const colCategoyId = document.getElementsByName("category_id");
+const selectElement = document.querySelectorAll("#category_id_edit option");
 const colProductCode = document.getElementsByName("product_code");
 const colDescription = document.getElementsByName("description");
 const colPrice = document.getElementsByName("price");
@@ -14,7 +14,6 @@ const colUnit = document.getElementsByName("unit");
 const colDiskon = document.getElementsByName("discount_amount");
 const colStock = document.getElementsByName("stock");
 const colImg = document.getElementsByName("image");
-console.log(colImg);
 
 bTambah.addEventListener("click", () => form.reset());
 
@@ -35,7 +34,15 @@ bEdit.forEach((bEdit) => {
     const image = parent.children[9].textContent;
 
     colId.forEach((colId) => (colId.value = id));
-    colCategoyId.forEach((colCategoyId) => (colCategoyId.value = category_id));
+
+    selectElement.forEach((selectElement) => {
+      if (selectElement.textContent == category_id) {
+        selectElement.setAttribute("selected", "selected");
+      } else {
+        selectElement.removeAttribute("selected");
+      }
+    });
+
     colProductName.forEach(
       (colProductName) => (colProductName.value = product_name)
     );
