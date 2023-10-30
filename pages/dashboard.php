@@ -1,5 +1,6 @@
 <?php
   require "koneksi.php";
+  require "tanggal.php";
 
   session_start();
   if (!isset($_SESSION['email'])){
@@ -54,6 +55,9 @@
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="dashboard.php" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <span class="nav-link" ><?php echo $hari . $bulan . $jam; ?></span>
       </li>
     </ul>
 
@@ -179,7 +183,7 @@
       <li class="nav-item dropdown">
         <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle"></a>
         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-          <li><a href="action-logout.php" class="dropdown-item">Log Out </a></li>
+          <li><a href="logout.php" class="dropdown-item">Log Out </a></li>
         </ul>
       </li>
     </ul>

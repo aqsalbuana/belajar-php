@@ -67,7 +67,7 @@
       <!-- /.social-auth-links -->
 
       <p class="mb-0 mt-3 text-center">
-        Don't have an account? <a href="register.html" class="text-dark fw-bold"><b>Sign up</b></a>
+        Don't have an account? <a href="signup.php" class="text-dark fw-bold"><b>Sign up</b></a>
       </p>
     </div>
     <!-- /.card-body -->

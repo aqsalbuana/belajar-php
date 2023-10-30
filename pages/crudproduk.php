@@ -1,5 +1,7 @@
 <?php
 require "koneksi.php";
+require "tanggal.php";
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +35,9 @@ require "koneksi.php";
         </li>
         <li class="nav-item d-none d-sm-inline-block">
           <a href="dashboard.php" class="nav-link">Home</a>
+        </li>
+         <li class="nav-item d-none d-sm-inline-block">
+          <span class="nav-link" ><?php echo $hari . $bulan . $jam; ?></span>
         </li>
       </ul>
 
@@ -152,7 +157,7 @@ require "koneksi.php";
         <li class="nav-item dropdown">
           <a id="dropdownSubMenu1" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle"></a>
           <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
-            <li><a href="action-logout.php" class="dropdown-item">Log Out </a></li>
+            <li><a href="logout.php" class="dropdown-item">Log Out </a></li>
           </ul>
         </li>
       </ul>
@@ -315,7 +320,7 @@ require "koneksi.php";
                     $jumlah_data = mysqli_num_rows($data);
                     $total_halaman = ceil($jumlah_data / $batas);
                     
-                    $data_product = "SELECT p.id, c.category_name, p.product_code, p.product_name, p.description, p.price, p.unit, p.discount_amount, p.stock, p.image FROM products p INNER JOIN product_categories c ON p.category_id = c.id LIMIT $halaman_awal, $batas";
+                    $data_product = "SELECT p.id, c.category_name, p.product_code, p.product_name, p.description, p.price, p.unit, p.discount_amount, p.stock, p.image FROM products p INNER JOIN product_categories c ON p.category_id = c.id ORDER BY id ASC LIMIT $halaman_awal, $batas";
                     // products limit $halaman_awal, $batas";
                     $nomor = $halaman_awal+1;
 
@@ -406,7 +411,7 @@ require "koneksi.php";
           <div class="modal-header">
             <h3 class="modal-title fs-5" id="modal-tambahLabel">Tambah Produk</h3>
           </div>
-          <form id="form" action="tambah.php" method="post" >
+          <form id="form" action="tambah.php" method="post" enctype="multipart/form-data" >
             <div class="modal-body ">
               <div class="mb-2">
                 <label for="namaProduk" class="form-label">Nama Produk<span style="color: red;">*</span></label>
@@ -455,7 +460,7 @@ require "koneksi.php";
 
               <div class="mb-2">
                 <label for="gambar" class="form-label">Foto Produk</label>
-                <input type="file" class="form-control border-0" id="gambar" name="images">
+                <input type="file" class="form-control border-0" id="gambar" name="images" multiple>
               </div>
             </div>
             <div class="modal-footer">
@@ -528,7 +533,7 @@ require "koneksi.php";
 
               <div class="mb-2">
                 <label for="gambar" class="form-label">Foto Produk</label>
-                <input type="file" class="form-control border-0" id="gambar" name="images">
+                <input type="file" class="form-control border-0" id="gambar" name="images" multiple>
               </div>
             </div>
             <div class="modal-footer">
