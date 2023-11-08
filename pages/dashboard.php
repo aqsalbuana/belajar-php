@@ -297,8 +297,7 @@
               <div class="inner">
                 <?php
                 $sql = "SELECT COUNT(*) FROM products";
-                $result = mysqli_query($koneksi, $sql);
-                $result = mysqli_fetch_array($result)[0];
+                $result = $koneksi->sum_data($sql)[0];
                 ?>
                 <h3><?php echo $result ?></h3>
 
@@ -317,8 +316,7 @@
               <div class="inner">
                 <?php
                 $sql = "SELECT COUNT(*) FROM customers";
-                $result = mysqli_query($koneksi, $sql);
-                $result = mysqli_fetch_array($result)[0];
+                $result = $koneksi->sum_data($sql)[0];
                 ?>
                 <h3><?php echo $result ?></h3>
 
@@ -337,8 +335,7 @@
               <div class="inner">
                 <?php
                 $sql = "SELECT COUNT(*) FROM vendors";
-                $result = mysqli_query($koneksi, $sql);
-                $result = mysqli_fetch_array($result)[0];
+                $result = $koneksi->sum_data($sql)[0];
                 ?>
                 <h3><?php echo $result ?></h3>
 

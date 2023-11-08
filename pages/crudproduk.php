@@ -19,6 +19,7 @@ require "tanggal.php";
   <link rel="stylesheet" href="../assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="../assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <!-- Theme style -->
   <link rel="stylesheet" href="../assets/dist/css/adminlte.min.css">
 </head>
@@ -311,22 +312,23 @@ require "tanggal.php";
                       
                     $batas = 3;
                     $halaman = isset($_GET['halaman'])?(int)$_GET['halaman'] : 1;
-                    $halaman_awal = ($halaman>1) ? ($halaman * $batas) - $batas : 0;	
+                    $koneksi->sethalaman($halaman);
+                    $halaman_awal = $koneksi->gethalaman();	
             
                     $previous = $halaman - 1;
                     $next = $halaman + 1;
                     
-                    $data = mysqli_query($koneksi,"select * from products");
-                    $jumlah_data = mysqli_num_rows($data);
+                    $query = "SELECT * FROM products";
+                    $data = $koneksi->query($query);
+                    $jumlah_data = $koneksi->jumlah_data($query);
                     $total_halaman = ceil($jumlah_data / $batas);
                     
-                    $data_product = "SELECT p.id, c.category_name, p.product_code, p.product_name, p.description, p.price, p.unit, p.discount_amount, p.stock, p.image FROM products p INNER JOIN product_categories c ON p.category_id = c.id ORDER BY id ASC LIMIT $halaman_awal, $batas";
-                    // products limit $halaman_awal, $batas";
+                    $data_product =   $data_product = $koneksi->select_data();
                     $nomor = $halaman_awal+1;
 
                     if (isset($_POST['kata_kunci'])) {
                       $kata_kunci=trim($_POST['kata_kunci']);
-                      $sql="SELECT * FROM products WHERE category_id LIKE '%".$kata_kunci."%' OR product_name LIKE '%".$kata_kunci."%' OR product_code LIKE '%".$kata_kunci."%' OR description LIKE '%".$kata_kunci."%'";
+                      $sql= $sql= $koneksi->cari_data($kata_kunci);
                     }else {
                       $sql=$data_product;
                       // die;
@@ -334,8 +336,8 @@ require "tanggal.php";
                   ?>
                   <tbody>
                     <?php
-                    $result=mysqli_query($koneksi,$sql);
-                    while ($row=mysqli_fetch_assoc($result)) {
+                    // $result=mysqli_query($koneksi,$sql);
+                    foreach ($sql as $row) {
                     // while ($row = $produk->fetch_assoc()) {
                     ?>
                   <tr>
@@ -348,7 +350,13 @@ require "tanggal.php";
                     <td><?php echo $row['unit']?></td>
                     <td><?php echo $row['discount_amount']?></td>
                     <td><?php echo $row['stock']?></td>
-                    <td><?php echo ('<img width="75px" height="auto" src="../assets/image/produk/'.( $row['image'] ).'"/>')?></td>
+                    <td>
+                    <?php $image = explode(" ", $row['image']);
+                    foreach ($image as $key) :
+                    ?>
+                      <?php echo ('<img width="75px" height="auto" src="../assets/image/produk/'.( $key ).'"/>')?>
+                      <?php endforeach ?>
+                    </td>
                     <td>
                       <div class="container">
                         <div class="row  justify-content-center">
@@ -413,14 +421,14 @@ require "tanggal.php";
           </div>
           <form id="form" action="tambah.php" method="post" enctype="multipart/form-data" >
             <div class="modal-body ">
-              <div class="mb-2">
+               <div class="mb-2 dropdown">
                 <label for="namaProduk" class="form-label">Nama Produk<span style="color: red;">*</span></label>
                 <input type="text" class="form-control" id="namaProduk" name="product_name" required>
               </div>
 
               <div class="mb-2">
                 <label for="namaProduk" class="form-label">Kategori<span style="color: red;">*</span></label>
-                <select class="form-control" id="category_id" name="category_id">
+                <select class="form-select" id="category_id" name="category_id">
                   <option value="1">Poster A5</option>
                   <option value="2">Poster A4</option>
                   <option value="3">Poster A3</option>
@@ -460,7 +468,7 @@ require "tanggal.php";
 
               <div class="mb-2">
                 <label for="gambar" class="form-label">Foto Produk</label>
-                <input type="file" class="form-control border-0" id="gambar" name="images" multiple>
+                <input type="file" class="form-control" id="gambar" name="images" multiple>
               </div>
             </div>
             <div class="modal-footer">
@@ -493,7 +501,7 @@ require "tanggal.php";
 
               <div class="mb-2">
                 <label for="namaProduk" class="form-label">Kategori<span style="color: red;">*</span></label>
-                <select class="form-control category_id" id="category_id_edit" name="category_id">
+                <select class="form-select category_id" id="category_id_edit" name="category_id">
                   <option value="1">Poster A5</option>
                   <option value="2">Poster A4</option>
                   <option value="3">Poster A3</option>
@@ -533,7 +541,7 @@ require "tanggal.php";
 
               <div class="mb-2">
                 <label for="gambar" class="form-label">Foto Produk</label>
-                <input type="file" class="form-control border-0" id="gambar" name="images" multiple>
+                <input type="file" class="form-control" id="gambar" name="images" multiple>
               </div>
             </div>
             <div class="modal-footer">
@@ -598,6 +606,7 @@ require "tanggal.php";
   <script src="../assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
   <script src="../assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
   <script src="../assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   <!-- AdminLTE App -->
   <script src="../assets/dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
